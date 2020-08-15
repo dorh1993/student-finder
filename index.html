@@ -4,16 +4,46 @@
     <link rel="stylesheet" type="text/css" href="style.css">   
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Find Students</title>
+    <title>Students Finder </title>
 </head>
 <body>
-<div id="test">
-    <!-- <button type="button" onclick="getHello()"> Change Content</button> -->
+<div class="search-bar">
+        <form> 
+            <div class="multipleSelection"> 
+                <div class="selectBox" 
+                    onclick="showCheckboxes()"> 
+                    <select> 
+                        <option>Select options</option> 
+                    </select> 
+                    <div class="overSelect"></div> 
+                </div> 
+      
+                <div id="checkBoxes"> 
+                    <label for="first"> 
+                        <input type="checkbox" id="first" /> 
+                        checkBox1 
+                    </label> 
+                      
+                    <label for="second"> 
+                        <input type="checkbox" id="second" /> 
+                        checkBox2 
+                    </label> 
+                    <label for="third"> 
+                        <input type="checkbox" id="third" /> 
+                        checkBox3 
+                    </label> 
+                    <label for="fourth"> 
+                        <input type="checkbox" id="fourth" /> 
+                        checkBox4 
+                    </label> 
+                </div> 
+            </div> 
+        </form> 
+    </div>
     <h1>Dor Haim</h1>
     <button class="add-doggo" type="button" onclick="addNewDoggo()"> Get Dogos</button>
         <div class="doggos">
     </div>
-</div>
 <script type="text/javascript" src="main.js">
 </script>
 </body>

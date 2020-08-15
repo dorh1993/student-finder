@@ -1,3 +1,15 @@
+var show = true; 
+
+function showCheckboxes() { 
+  var checkboxes =  document.getElementById("checkBoxes"); 
+    if (show) { 
+        checkboxes.style.display = "block"; 
+        show = false; 
+    } else { 
+        checkboxes.style.display = "none"; 
+        show = true; 
+    } 
+} 
 
 function getHello() {
     var xhttp = new XMLHttpRequest();
@@ -31,5 +43,4 @@ function addNewDoggo() {
     });
 }
 
-//document.querySelector(".add-doggo").addEventListener("click", addNewDoggo);
-
+//document.querySelector(".add-doggo").addEventListener("click", addNewDoggo);  
