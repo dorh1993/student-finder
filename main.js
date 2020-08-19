@@ -11,6 +11,27 @@ function showCheckboxes() {
     } 
 } 
 
+const academies = ['HIT', 'Tel-Aviv', 'Ben-Gurion' ,'Afeka', 'Shenkar']
+function getDisctricList(){
+  var x = document.getElementsByClassName("academy-select").value;
+  var items;
+
+}
+
+function initMap() {
+  var location = {
+    lat: 32.016510,
+    lng: 34.771410
+  }
+  var map = new google.maps.Map(document.getElementById("map"), {
+    zoom: 16.25,
+    center: location,
+    map: map
+  });
+}
+
+
+
 function getHello() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
