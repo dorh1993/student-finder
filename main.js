@@ -1,67 +1,102 @@
-var show = true; 
-
-function showCheckboxes() { 
-  var checkboxes =  document.getElementById("checkBoxes"); 
-    if (show) { 
-        checkboxes.style.display = "block"; 
-        show = false; 
-    } else { 
-        checkboxes.style.display = "none"; 
-        show = true; 
-    } 
-} 
-
-const academies = ['HIT', 'Tel-Aviv', 'Ben-Gurion' ,'Afeka', 'Shenkar']
-function getDisctricList(){
-  var x = document.getElementsByClassName("academy-select").value;
-  var items;
-
-}
 
 function initMap() {
+    
   var location = {
     lat: 32.016510,
     lng: 34.771410
   }
+  
+  var location2 = {
+    lat:32.0171363,
+    lng: 34.7697293
+  }
+
   var map = new google.maps.Map(document.getElementById("map"), {
     zoom: 16.25,
     center: location,
     map: map
   });
-}
+
+  
+  function addMarker(coords) {
+    var marker = new google.maps.Marker({
+      position: coords,
+      map: map
+    });
+  }
 
 
-
-function getHello() {
+//Get
+  function getALLMarkers() {
     var xhttp = new XMLHttpRequest();
     xhttp.onreadystatechange = function() {
         if (this.readyState == 4 && this.status == 200) {
-            var response = this.responseText;
-            document.getElementById("test").innerHTML = response;
+            var response = JSON.parse(this.responseText);
+            response.forEach(element => {
+              addMarker(element.location);
+            });
         }
     };
     xhttp.open("GET", "http://localhost:3000/hello", true);
     xhttp.send();
 }
 
+getALLMarkers();
 
-const DOG_URL = "https://dog.ceo/api/breeds/image/random";
-
-const doggos = document.querySelector(".doggos");
-
-function addNewDoggo() {
-  const promise = fetch(DOG_URL);
-  promise
-    .then(function(response) {
-      const processingPromise = response.json();
-      return processingPromise;
-    })
-    .then(function(processedResponse) {
-      const img = document.createElement("img");
-      img.src = processedResponse.message;
-      img.alt = "Cute doggo";
-      doggos.appendChild(img);
-    });
 }
 
-//document.querySelector(".add-doggo").addEventListener("click", addNewDoggo);  
+
+
+//Post
+var email = "shlomi@gmail.com";
+var password = "123456";
+
+function createMessage(email, pass) {
+  var message =  { "email" : email,"pass" : pass};
+    return message
+}
+
+function sendLogin(email, pass){
+  var message = createMessage("shlomi@gmail.com", "123456");
+  postUser(message);
+}
+
+function postUser(message) {
+  var xhttp = new XMLHttpRequest();
+  xhttp.onreadystatechange = function() {
+    if (this.readyState == 4 && this.status == 200) {
+      console.log(this.responseText);
+    }
+  };
+  xhttp.open("POST", "http://localhost:3000/save-user", true);
+  xhttp.setRequestHeader({ 'Content-Type': 'application/json'});
+  xhttp.send(message);
+}
+
+//sendLogin();
+
+
+// Example POST method implementation:
+async function postData(url = '', data = {}) {
+  // Default options are marked with *
+  const response = await fetch(url, {
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
+    mode: 'no-cors', // no-cors, *cors, same-origin
+    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'same-origin', // include, *same-origin, omit
+    headers: {
+      //'Accept': 'application/json',
+      'Content-Type': 'application/json'
+      //'Content-Type': 'application/x-www-form-urlencoded',
+    },
+    redirect: 'follow', // manual, *follow, error
+    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    body: JSON.stringify(data) // body data type must match "Content-Type" header
+  });
+  return response; // parses JSON response into native JavaScript objects
+}
+
+postData("http://localhost:3000/save-user", { email : "shlomi" , pass : "1234"} )
+  .then(data => {
+    //console.log(data); // JSON data parsed by `data.json()` call
+  });

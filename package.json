@@ -1,0 +1,16 @@
+{
+  "name": "express-example-dor",
+  "version": "1.0.0",
+  "description": "express-api example for Dor Haim",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start-dev": "nodemon index.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.17.1",
+    "public-ip": "^4.0.2"
+  }
+}
