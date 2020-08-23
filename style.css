@@ -17,12 +17,40 @@
   flex-direction: row;
 }
 
+.hat-div{
+  bottom: -2px;
+  left: 8px;
+  position: absolute;
+}
+
+.marker-div{
+  left: 2px;
+  position: absolute;
+  top: 13px;
+}
+
+.icon{
+  height: 50px;
+  width: 40px;
+}
+.hat-icon{
+  fill: white;
+  height: auto;  
+}
+
+.marker-icon{
+  fill: white;
+  height: auto;
+  padding: 5px;
+}
+
+
 .app-name{
   color: white;
   width: max-content;
   font-size: larger;
   font-weight: unset;
-  padding: 10px 0px 10px 25px;
+  padding: 17px 0px 10px 0px;
   font-family: Gill Sans Extrabold, sans-serif;
 }
 .app-name-bold{
@@ -30,7 +58,7 @@
   width: max-content;
   font-size: larger;
   font-family: Gill Sans Extrabold, sans-serif;
-  padding: 10px 10px 0 0;
+  padding: 16px 10px 0 0;
 }
 
 .select-bar{
@@ -47,6 +75,7 @@
 }
 
 .select-container{
+  margin-top: 15px;
   grid-row-start: 1;
   display:flex;
   float: right;
@@ -54,7 +83,7 @@
 
 .select{
   height: 27px;
-  width: 100px;
+  width: 130px;
   margin: 5px;
   border-radius: 4px;
   color: white;
@@ -62,8 +91,15 @@
   background-color: rgba(255,255,255,0.2);
 }
 
+
+.select-wrapper{
+  position: relative;
+  font-family: Arial;
+}
+
 option{
   background: #1a73e8;
+  cursor: pointer;
 }
 
 .map-container{

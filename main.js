@@ -85,18 +85,30 @@ async function postData(url = '', data = {}) {
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     credentials: 'same-origin', // include, *same-origin, omit
     headers: {
-      //'Accept': 'application/json',
-      'Content-Type': 'application/json'
-      //'Content-Type': 'application/x-www-form-urlencoded',
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin" : "*", 
+      "Access-Control-Allow-Credentials" : true 
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data) // body data type must match "Content-Type" header
   });
-  return response; // parses JSON response into native JavaScript objects
+  return response // parses JSON response into native JavaScript objects
 }
 
-postData("http://localhost:3000/save-user", { email : "shlomi" , pass : "1234"} )
+postData("https://4f62e20490a1.ngrok.io/add-user", {name: "Dor", email: "dor12@gmail.com", password: "Newyork12312"} )
   .then(data => {
-    //console.log(data); // JSON data parsed by `data.json()` call
+    console.log(data); // JSON data parsed by `data.json()` call
   });
+
+
+  // postData("https://4f62e20490a1.ngrok.io/add-user", {name: "Dor", email: "dor12@gmail.com", password: "Newyork12312"} )
+  // .then(response => response.json())
+  //  .then(function (data) {
+  //    console.log(data)
+  //   });
+// postData("https://4f62e20490a1.ngrok.io/test", {name: "John", age: 31, city: "New York"} )
+// .then(data => {
+//   console.log(data); // JSON data parsed by `data.json()` call
+// })
