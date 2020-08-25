@@ -1,26 +1,11 @@
-// // Show/hide password onClick of button using Javascript only
+// $('.error-page').hide(0);
 
-// // https://stackoverflow.com/questions/31224651/show-hide-password-onclick-of-button-using-javascript-only
+// $('.login-button , .no-access').click(function(){
+//   $('.login').slideUp(500);
+//   $('.error-page').slideDown(1000);
+// });
 
-// function show() {
-//     var p = document.getElementById('pwd');
-//     p.setAttribute('type', 'text');
-// }
-
-// function hide() {
-//     var p = document.getElementById('pwd');
-//     p.setAttribute('type', 'password');
-// }
-
-// var pwShown = 0;
-
-// document.getElementById("eye").addEventListener("click", function () {
-//     if (pwShown == 0) {
-//         pwShown = 1;
-//         show();
-//     } else {
-//         pwShown = 0;
-//         hide();
-//     }
-// }, false);
-
+// $('.try-again').click(function(){
+//   $('.error-page').hide(0);
+//   $('.login').slideDown(1000);
+// });
