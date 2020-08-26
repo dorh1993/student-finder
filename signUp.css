@@ -8,7 +8,7 @@ body, html {
     color: #373C40;
     font-family: Verdana,Arial, Helvetica, sans-serif;
     height: 100%;
-    background:url('pexels-photo-3183190.jpeg');
+    background:url('pexels-photo-3182804.jpeg');
     background-repeat: no-repeat;
     background-attachment: fixed;
     background-position: center;
@@ -78,10 +78,11 @@ form.register fieldset.row1 label{
 form.register fieldset.row2
 {
     border-top:1px solid #F1F1F1;
-    border-right:1px solid #F1F1F1;
+    /* border-right:1px solid #F1F1F1; */
     height:220px;
     padding:5px;
     float:left;
+    width: 770px;
 }
 form.register fieldset.row3
 {
@@ -112,7 +113,7 @@ form.register .infobox{
 }
 form.register legend
 {
-    color: #04027b;
+    color: #eaa302e0;
     padding:2px;
     margin-left: 14px;
     font-weight:bold;
@@ -126,6 +127,7 @@ form.register label{
     text-align: right;
     margin-right: 6px;
     margin-top:2px;
+    font-weight: bold;
 }
 form.register label.optional{
     float: left;
@@ -178,7 +180,7 @@ form.register input[type=password]
 }
 .button
 {
-    background: #04027b url(../img/overlay.png) repeat-x;
+    background: #eaa302e0 url(../img/overlay.png) repeat-x;
     padding: 8px 10px 8px;
     color: #fff;
     text-decoration: none;
