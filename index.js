@@ -13,20 +13,43 @@ app.use(bodyParser.urlencoded({
 app.use(bodyParser.json());
 
 var markers = [ {
+        "name": "Eliran",
+        "email": "eliran@gmail.com",
+        "phone": "052-987-1234",
         "location" : {
-            "lat": 32.016510,
-            "lng" : 34.771410
+            "lat": 32.0170737,
+            "lng" : 34.7681623
           }
 
     },{
+        "name": "Eden",
+        "email": "eden@gmail.com",
+        "phone": "052-987-1234",
         "location" : {
-            "lat": 32.0171363,
-            "lng" : 34.7697293
+            "lat": 32.0154278,
+            "lng" : 34.7705851
           }
     }
 ];
 
-app.get('/hello', (req, res, next) => {
+var user = {
+    "name": "Dor Haim",
+    "email": "Dor@gmail.com",
+    "phone": "052-987-6542",   
+    "location" : {
+        "lat": 32.016510,
+        "lng" : 34.771410
+      }
+}
+
+app.get('/user', (req, res, next) => {
+    res.header('Access-Control-Allow-Origin', '*');
+    res.send(user)
+    next();
+})
+
+
+app.get('/markers', (req, res, next) => {
     res.header('Access-Control-Allow-Origin', '*');
     res.send(markers)
     next();

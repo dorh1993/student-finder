@@ -1,114 +1,138 @@
-
 function initMap() {
-    
-  var location = {
-    lat: 32.016510,
-    lng: 34.771410
+  
+  var mapDiv = document.getElementById("map");
+
+  // function to get the user address and zoom it in the map
+  function getUserLocation(url) {
+    fetch(url)
+    .then((resp) => resp.json()) // Transform the data into json
+    .then(function(user) {
+      map = new google.maps.Map(mapDiv, {
+        zoom: 16.25,
+        center: user.location,
+        map: map
+      });
+      var marker = new google.maps.Marker({
+        position: user.location,
+        label: { color: '#00aaff', fontWeight: 'bold', fontSize: '14px', text: (user.name +'\n'+ user.phone + user.email)},
+        map: map,
+        icon: { 
+            url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png" 
+          }
+          
+      });
+      })
+    .catch(function(error) {
+      console.log('ERROR');
+    }); 
   }
   
-  var location2 = {
-    lat:32.0171363,
-    lng: 34.7697293
-  }
+  getUserLocation("http://localhost:3000/user")
 
-  var map = new google.maps.Map(document.getElementById("map"), {
-    zoom: 16.25,
-    center: location,
-    map: map
-  });
+    function getAllUsersLocation(url) {
+      fetch(url)
+      .then((resp) => resp.json())
+      .then(function(markers) {
+        console.log('markers', markers);
+        markers.forEach(marker => {
+          addMarker(marker)
+        });
+       });
+      }
+      
+    function addMarker(marker) {
+      var marker = new google.maps.Marker({
+        position: marker.location,
+        map: map
+      });
+      // var userInfo = 
+      // '<div> marker.name </div>'+
+      // '<div> marker.phone </div>' +
+      // '<div> marker.email </div>';
+      var infowindow = new google.maps.InfoWindow({
+        content: '<div> marker.name </div>',
+      });
+      marker.addListener('click', function() {
+        infowindow.open(map, marker);
+    })
+  }  
 
-  
-  function addMarker(coords) {
-    var marker = new google.maps.Marker({
-      position: coords,
-      map: map
+  getAllUsersLocation("https://abc848f31584.ngrok.io/markers");
+  //getAllUsersLocation("http://localhost:3000/markers");
+
+    //submit request for geocoding
+    const geocoder = new google.maps.Geocoder();
+    document.getElementById("submit").addEventListener("click", () => {
+      geocodeAddress(geocoder);
     });
+    
   }
 
+    
+  
 
-//Get
-  function getALLMarkers() {
-    var xhttp = new XMLHttpRequest();
-    xhttp.onreadystatechange = function() {
-        if (this.readyState == 4 && this.status == 200) {
-            var response = JSON.parse(this.responseText);
-            response.forEach(element => {
-              addMarker(element.location);
-            });
-        }
-    };
-    xhttp.open("GET", "http://localhost:3000/hello", true);
-    xhttp.send();
+  // geocoding api
+  function geocodeAddress(geocoder) {
+    //const address = document.getElementById("address").value;
+    const address = "רחוב הסתדרות 32, Holon"
+    geocoder.geocode({ address: address }, (results, status) => {
+      if (status === "OK") {
+        var latitude = results[0].geometry.location.lat();
+        var longitude = results[0].geometry.location.lng();
+        console.log('latitude', latitude);
+        console.log('longitude', longitude);
+      } else {
+        alert("Geocode was not successful for the following reason: " + status);
+      }
+    });
+
 }
 
-getALLMarkers();
-
-}
 
 
-
-//Post
-var email = "shlomi@gmail.com";
-var password = "123456";
-
-function createMessage(email, pass) {
-  var message =  { "email" : email,"pass" : pass};
-    return message
-}
-
-function sendLogin(email, pass){
-  var message = createMessage("shlomi@gmail.com", "123456");
-  postUser(message);
-}
-
-function postUser(message) {
-  var xhttp = new XMLHttpRequest();
-  xhttp.onreadystatechange = function() {
-    if (this.readyState == 4 && this.status == 200) {
-      console.log(this.responseText);
+//Fetch Get[]
+function getUsers(url){
+  fetch(url,
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+      },
     }
-  };
-  xhttp.open("POST", "http://localhost:3000/save-user", true);
-  xhttp.setRequestHeader({ 'Content-Type': 'application/json'});
-  xhttp.send(message);
+    ).then(response=> response.json())
+    .then(res=>{
+    console.log('final ', res.test)
+  })
 }
 
-//sendLogin();
+getUsers("https://abc848f31584.ngrok.io/test");
 
 
-// Example POST method implementation:
+
+// POST
 async function postData(url = '', data = {}) {
   // Default options are marked with *
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'no-cors', // no-cors, *cors, same-origin
+    mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
+    //credentials: 'same-origin', // include, *same-origin, omit
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      "Access-Control-Allow-Origin" : "*", 
-      "Access-Control-Allow-Credentials" : true 
+      'Access-Control-Allow-Origin' : "*", 
+      'Access-Control-Allow-Credentials' : true 
     },
     redirect: 'follow', // manual, *follow, error
     referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
     body: JSON.stringify(data) // body data type must match "Content-Type" header
   });
-  return response // parses JSON response into native JavaScript objects
+  return response.json(); // parses JSON response into native JavaScript objects
 }
 
-postData("https://4f62e20490a1.ngrok.io/add-user", {name: "Dor", email: "dor12@gmail.com", password: "Newyork12312"} )
+postData("https://abc848f31584.ngrok.io/add-user", {"name": "ddfssron", "email": "ddssh@gmail.com"} )
   .then(data => {
-    console.log(data); // JSON data parsed by `data.json()` call
-  });
+    console.log('status',data); // JSON data parsed by `data.json()` call
+  })
+;
 
-
-  // postData("https://4f62e20490a1.ngrok.io/add-user", {name: "Dor", email: "dor12@gmail.com", password: "Newyork12312"} )
-  // .then(response => response.json())
-  //  .then(function (data) {
-  //    console.log(data)
-  //   });
-// postData("https://4f62e20490a1.ngrok.io/test", {name: "John", age: 31, city: "New York"} )
-// .then(data => {
-//   console.log(data); // JSON data parsed by `data.json()` call
-// })

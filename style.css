@@ -121,3 +121,8 @@ option{
   background: transparent;
   grid-row-start: 1;
 }
+
+.info-window{
+  width: 150px;
+  height: 150px;
+}
