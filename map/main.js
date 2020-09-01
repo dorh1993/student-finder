@@ -30,7 +30,13 @@ function initMap() {
   getUserLocation("http://localhost:3000/user")
 
     function getAllUsersLocation(url) {
-      fetch(url)
+      fetch(url,
+        {
+          method: 'GET',
+          headers: {
+            Accept: 'application/json',
+          },
+        })
       .then((resp) => resp.json())
       .then(function(markers) {
         console.log('markers', markers);
@@ -57,8 +63,8 @@ function initMap() {
     })
   }  
 
-  getAllUsersLocation("https://abc848f31584.ngrok.io/markers");
-  //getAllUsersLocation("http://localhost:3000/markers");
+  //getAllUsersLocation("https://abc848f31584.ngrok.io/markers");
+  getAllUsersLocation("http://localhost:3000/markers");
 
     //submit request for geocoding
     const geocoder = new google.maps.Geocoder();
@@ -130,9 +136,9 @@ async function postData(url = '', data = {}) {
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
-postData("https://abc848f31584.ngrok.io/add-user", {"name": "ddfssron", "email": "ddssh@gmail.com"} )
-  .then(data => {
-    console.log('status',data); // JSON data parsed by `data.json()` call
-  })
+// postData("https://abc848f31584.ngrok.io/add-user", {"name": "ddfssron", "email": "ddssh@gmail.com"} )
+//   .then(data => {
+//     console.log('status',data); // JSON data parsed by `data.json()` call
+//   })
 ;
 
