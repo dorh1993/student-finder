@@ -33,7 +33,7 @@ h1 {
     font-weight:bold;
     color: #444;
     font-size:16pt;
-    background: transparent url(../img/h1.png) no-repeat center left;
+    /* background: transparent url(../img/h1.png) no-repeat center left; */
     padding-left:33px;
     margin:7px 5px 8px 8px;
 }
@@ -180,7 +180,7 @@ form.register input[type=password]
 }
 .button
 {
-    background: #eaa302e0 url(../img/overlay.png) repeat-x;
+    background: #eaa302e0;
     padding: 8px 10px 8px;
     color: #fff;
     text-decoration: none;
