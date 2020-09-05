@@ -56,6 +56,8 @@ app.get('/markers', (req, res, next) => {
 })
 
 app.post('/save-user', (req, res, next) => {
+    res.header('Accept','application/json');
+    res.header('Content-Type', 'application/json');
     res.header('Access-Control-Allow-Origin', '*');
     console.log('here we has request-body', req.body);
     res.sendStatus(200);

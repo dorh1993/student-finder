@@ -28,7 +28,7 @@
         </div>
         <div class="select-container">
             <div class="select-wrapper">
-                <select class="select">
+                <select onchange="filteredMarkers()" class="select">
                     <option value="0">Select Institute</option>
                     <option value="1">Tel Aviv</option>
                     <option value="2">Ben Gurion</option>
@@ -37,15 +37,25 @@
                 </select>
             </div>
             <div class="select-wrapper">
-                <select class="select">
-                    <option value="0">Select Year</option>
-                    <option value="1">Year 2</option>
-                    <option value="2">Year 3</option>
-                    <option value="3">Year 4</option>
+                <select onchange="filteredMarkers()" class="select">
+                    <option value="0">Select Major</option>
+                    <option value="1">Computer Science</option>
+                    <option value="2">Electrical Engineering</option>
+                    <option value="3">Mathematics</option>
+                    <option value="4">Psychology</option>
                 </select>
             </div>
             <div class="select-wrapper">
-                <select class="select">
+                <select onchange="filteredMarkers()" class="select">
+                    <option value="0">Select Year</option>
+                    <option value="1">Year 1</option>
+                    <option value="2">Year 2</option>
+                    <option value="3">Year 3</option>
+                    <option value="4">Year 4</option>
+                </select>
+            </div>
+            <div class="select-wrapper">
+                <select onchange="filteredMarkers()" class="select">
                     <option value="0">Select Course</option>
                     <option value="1">בדידה</option>
                     <option value="2">הסתברות</option>
@@ -53,7 +63,6 @@
                 </select>
             </div>
         </div>
-        <button class="select" id="submit">Geocode</button>
         <a class="settings" href="user-info.html"> Settings</a>
     </div>
     <div class="map-container">

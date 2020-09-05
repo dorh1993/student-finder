@@ -4,7 +4,9 @@ function initMap() {
 
   // function to get the user address and zoom it in the map
   function getUserLocation(url) {
-    fetch(url)
+    fetch(url, {
+      credentials: 'include' // include, *same-origin, omit
+    })
     .then((resp) => resp.json()) // Transform the data into json
     .then(function(user) {
       map = new google.maps.Map(mapDiv, {
@@ -27,9 +29,10 @@ function initMap() {
     }); 
   }
   
-  getUserLocation("http://localhost:3000/user")
+  getUserLocation("https://6c8872eeef8b.ngrok.io/user-marker")
+  //getUserLocation("http://localhost:3000/user")
 
-    function getAllUsersLocation(url) {
+    function getMarkers(url, data = {}) {
       fetch(url,
         {
           method: 'GET',
@@ -63,14 +66,14 @@ function initMap() {
     })
   }  
 
-  //getAllUsersLocation("https://abc848f31584.ngrok.io/markers");
-  getAllUsersLocation("http://localhost:3000/markers");
+  //getMarkers("https://abc848f31584.ngrok.io/markers");
+  //getMarkers("http://localhost:3000/markers");
 
-    //submit request for geocoding
-    const geocoder = new google.maps.Geocoder();
-    document.getElementById("submit").addEventListener("click", () => {
-      geocodeAddress(geocoder);
-    });
+    //submit request for geocoding by click
+    // const geocoder = new google.maps.Geocoder();
+    // document.getElementById("submit").addEventListener("click", () => {
+    //   geocodeAddress(geocoder);
+    // });
     
   }
 
@@ -78,21 +81,21 @@ function initMap() {
   
 
   // geocoding api
-  function geocodeAddress(geocoder) {
-    //const address = document.getElementById("address").value;
-    const address = "רחוב הסתדרות 32, Holon"
-    geocoder.geocode({ address: address }, (results, status) => {
-      if (status === "OK") {
-        var latitude = results[0].geometry.location.lat();
-        var longitude = results[0].geometry.location.lng();
-        console.log('latitude', latitude);
-        console.log('longitude', longitude);
-      } else {
-        alert("Geocode was not successful for the following reason: " + status);
-      }
-    });
+//   function geocodeAddress(geocoder) {
+//     //const address = document.getElementById("address").value;
+//     const address = "רחוב הסתדרות 32, Holon"
+//     geocoder.geocode({ address: address }, (results, status) => {
+//       if (status === "OK") {
+//         var latitude = results[0].geometry.location.lat();
+//         var longitude = results[0].geometry.location.lng();
+//         console.log('latitude', latitude);
+//         console.log('longitude', longitude);
+//       } else {
+//         alert("Geocode was not successful for the following reason: " + status);
+//       }
+//     });
 
-}
+// }
 
 
 
@@ -111,7 +114,7 @@ function getUsers(url){
   })
 }
 
-getUsers("https://abc848f31584.ngrok.io/test");
+//getUsers("https://6c8872eeef8b.ngrok.io/test");
 
 
 
@@ -122,7 +125,7 @@ async function postData(url = '', data = {}) {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    //credentials: 'same-origin', // include, *same-origin, omit
+    credentials: 'same-origin', // include, *same-origin, omit
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
@@ -136,9 +139,35 @@ async function postData(url = '', data = {}) {
   return response.json(); // parses JSON response into native JavaScript objects
 }
 
-// postData("https://abc848f31584.ngrok.io/add-user", {"name": "ddfssron", "email": "ddssh@gmail.com"} )
+// postData("https://6c8872eeef8b.ngrok.io/add-user", {"name": "ddfssron", "email": "eelish@gmail.com"} )
 //   .then(data => {
 //     console.log('status',data); // JSON data parsed by `data.json()` call
 //   })
-;
 
+
+
+function filteredMarkers() {
+  var selectedOption = [];
+    var filters = {
+      "institute": null,
+      "major": null,
+      "year": null,
+      "course": null
+  };
+    var selectElements = document.getElementsByClassName('select');
+    for(var i=0; selectElements[i]; ++i){
+          var option = selectElements[i].options[selectElements[i].selectedIndex].value;
+          selectedOption.push(option);
+  }
+  var i = 0;
+  for (var key in filters) {
+    if (filters.hasOwnProperty(key)) {
+      if( selectedOption[i] != 0)
+          filters[key] = selectedOption[i];
+      }
+    i++;
+  }
+  console.log('filters', filters)
+  getMarkers("", filters)
+
+}

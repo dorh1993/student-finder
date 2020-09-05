@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>Login</title>
     <link rel="stylesheet" type="text/css" href="login.css" />
 </head>
 <body>
@@ -15,15 +15,16 @@
       </div>
       <div class="login-form">
         <h3>Email:</h3>
-        <input type="text" placeholder="@Email"/><br>
+        <input id="emailInput" type="text" placeholder="@Email"/><br>
         <br>
-        <input type="button" value="Login" class="login-button"/>
+        <input type="button" value="Login" class="login-button" onclick="checkIfExist()"/>
         <br>
         <a class="sign-up">Sign Up!</a>
         <br>
       </div>
     </div>
-
+    <script type="text/javascript" src="login.js">
+    </script>
     </div>
   </body>
 </html>
