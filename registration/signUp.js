@@ -1,22 +1,3 @@
-// var user = {
-//     "name": "Dor Haim",
-//     "email": "example1@gmail.com",
-//     "phone": "052-987-6542",
-//     "street": "Haistadrut",
-//     "streetNum": "55",
-//     "city": "holon",
-//     "country": "israel",
-//     "coords" : {
-//             "lat": 32.016510,
-//             "lng" : 34.771410
-//                 },
-//     "institute": "2",
-//     "major": "2",
-//     "year": 2,
-//     "courses": [1,3]
-// }
-
-
 function getUserInfo(url) {
     fetch(url,
       {
@@ -53,17 +34,14 @@ function setDatafromJson(user) {
 }
 
 
-//setDatafromJson(user);
-
 async function postData(url = '', data = {}) {
     const response = await fetch(url, {
-      method: 'POST', // *GET, POST, PUT, DELETE, etc.
-      mode: 'cors', // no-cors, *cors, same-origin
-      cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+      method: 'POST',
+      mode: 'cors', 
+      credentials: 'include',
       headers: {
         'Accept': 'application/json',
         'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin' : "*", 
         'Access-Control-Allow-Credentials' : true 
       },
       redirect: 'follow',
@@ -168,8 +146,12 @@ Promise.all(locations)
     
     postData("https://6c8872eeef8b.ngrok.io/add-user", message )
     .then(data => {
-    console.log('sign-up status',data);
-  })
+      if (response.status == 'success'){
+        setTimeout(function(){
+          window.location.href = "http://83.130.145.225:8080/map";
+        }, 7000) 
+      }
+    })
   })
   
 }

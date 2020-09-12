@@ -3,20 +3,16 @@ var mapDiv = document.getElementById("map");
 // function to get the user address and zoom it in the map
 function getUserLocation(url) {
   fetch(url , {
-    method: 'GET', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'include', // include, *same-origin, omit
+    method: 'GET',
+    mode: 'cors', 
+    credentials: 'include', 
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      //'Access-Control-Allow-Origin' : "*",
       'Access-Control-Allow-Credentials' : true 
-    },
-    //redirect: 'follow', // manual, *follow, error
-   // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+    }
   })
-  .then((resp) => resp.json()) // Transform the data into json
+  .then((resp) => resp.json()) 
   .then(function(user) {
     map = new google.maps.Map(mapDiv, {
       zoom: 16.25,
@@ -25,7 +21,7 @@ function getUserLocation(url) {
     });
     var marker = new google.maps.Marker({
       position: user.location,
-      label: { color: '#00aaff', fontWeight: 'bold', fontSize: '14px', text: (user.name +'\n'+ user.phone + user.email)},
+      label: { color: '#00aaff', fontWeight: 'bold', fontSize: '14px', text: (user.name +" "+ user.phone +" ",+ user.email)},
       map: map,
       icon: { 
           url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png" 
@@ -42,10 +38,12 @@ function getMarkers(url, data = {}) {
   fetch(url,
     {
       method: 'GET',
+      mode: 'cors', 
+      credentials: 'include', 
       headers: {
-        Accept: 'application/json',
-        'Access-Control-Allow-Credentials' : true,
-        //'Access-Control-Allow-Origin' : "*"
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials' : true 
       },
     })
   .then((resp) => resp.json())
@@ -62,10 +60,6 @@ function addMarker(marker) {
     position: marker.location,
     map: map
   });
-  // var userInfo = 
-  // '<div> marker.name </div>'+
-  // '<div> marker.phone </div>' +
-  // '<div> marker.email </div>';
   var infowindow = new google.maps.InfoWindow({
     content: '<div> marker.name </div>',
   });
@@ -77,7 +71,7 @@ function addMarker(marker) {
 
 function initMap() {
    
-  getUserLocation("https://182f9ef1b67d.ngrok.io/user-marker")
+  getUserLocation("https://9ffcd8d52005.ngrok.io/user-marker")
   //getUserLocation("http://localhost:3000/user")
 
   //getMarkers("https://182f9ef1b67d.ngrok.io/markers");
@@ -85,69 +79,22 @@ function initMap() {
 
 }
 
-  // geocoding api
-//   function geocodeAddress(geocoder) {
-//     //const address = document.getElementById("address").value;
-//     const address = "רחוב הסתדרות 32, Holon"
-//     geocoder.geocode({ address: address }, (results, status) => {
-//       if (status === "OK") {
-//         var latitude = results[0].geometry.location.lat();
-//         var longitude = results[0].geometry.location.lng();
-//         console.log('latitude', latitude);
-//         console.log('longitude', longitude);
-//       } else {
-//         alert("Geocode was not successful for the following reason: " + status);
-//       }
-//     });
-
-// }
-
-
-
-//Fetch Get[]
-function getUsers(url){
-  fetch(url,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
-    }
-    ).then(response=> response.json())
-    .then(res=>{
-    console.log('final ', res.test)
-  })
-}
-
-//getUsers("https://6c8872eeef8b.ngrok.io/test");
-
-
 
 // POST
 async function postData(url = '', data = {}) {
-  // Default options are marked with *
   const response = await fetch(url, {
-    method: 'POST', // *GET, POST, PUT, DELETE, etc.
-    mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
-    credentials: 'same-origin', // include, *same-origin, omit
+    method: 'POST', 
+    mode: 'cors', 
+    credentials: 'include', 
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
       'Access-Control-Allow-Credentials' : true 
     },
-    redirect: 'follow', // manual, *follow, error
-    referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
-    body: JSON.stringify(data) // body data type must match "Content-Type" header
+    body: JSON.stringify(data)
   });
-  return response.json(); // parses JSON response into native JavaScript objects
+  return response.json(); 
 }
-
-// postData("https://6c8872eeef8b.ngrok.io/add-user", {"name": "ddfssron", "email": "eelish@gmail.com"} )
-//   .then(data => {
-//     console.log('status',data); // JSON data parsed by `data.json()` call
-//   })
-
 
 function filteredMarkers() {
   var selectedOption = [];
