@@ -41,7 +41,8 @@ body {
   }
   .login input[type="text"] {
     max-width:400px;
-      width: 80%;
+    width: 80%;
+    height: 37px;
     line-height:3em;
     font-family: 'Ubuntu', sans-serif;
     margin:1em 2em;

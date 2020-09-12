@@ -1,84 +1,89 @@
-function initMap() {
-  
-  var mapDiv = document.getElementById("map");
+var mapDiv = document.getElementById("map");
 
-  // function to get the user address and zoom it in the map
-  function getUserLocation(url) {
-    fetch(url, {
-      credentials: 'include' // include, *same-origin, omit
+// function to get the user address and zoom it in the map
+function getUserLocation(url) {
+  fetch(url , {
+    method: 'GET', // *GET, POST, PUT, DELETE, etc.
+    mode: 'cors', // no-cors, *cors, same-origin
+    //cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
+    credentials: 'include', // include, *same-origin, omit
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      //'Access-Control-Allow-Origin' : "*",
+      'Access-Control-Allow-Credentials' : true 
+    },
+    //redirect: 'follow', // manual, *follow, error
+   // referrerPolicy: 'no-referrer', // no-referrer, *no-referrer-when-downgrade, origin, origin-when-cross-origin, same-origin, strict-origin, strict-origin-when-cross-origin, unsafe-url
+  })
+  .then((resp) => resp.json()) // Transform the data into json
+  .then(function(user) {
+    map = new google.maps.Map(mapDiv, {
+      zoom: 16.25,
+      center: user.location,
+      map: map
+    });
+    var marker = new google.maps.Marker({
+      position: user.location,
+      label: { color: '#00aaff', fontWeight: 'bold', fontSize: '14px', text: (user.name +'\n'+ user.phone + user.email)},
+      map: map,
+      icon: { 
+          url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png" 
+        }
+        
+    });
     })
-    .then((resp) => resp.json()) // Transform the data into json
-    .then(function(user) {
-      map = new google.maps.Map(mapDiv, {
-        zoom: 16.25,
-        center: user.location,
-        map: map
-      });
-      var marker = new google.maps.Marker({
-        position: user.location,
-        label: { color: '#00aaff', fontWeight: 'bold', fontSize: '14px', text: (user.name +'\n'+ user.phone + user.email)},
-        map: map,
-        icon: { 
-            url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png" 
-          }
-          
-      });
-      })
-    .catch(function(error) {
-      console.log('ERROR');
-    }); 
+  .catch(function(error) {
+    console.log('ERROR');
+  }); 
+}
+
+function getMarkers(url, data = {}) {
+  fetch(url,
+    {
+      method: 'GET',
+      headers: {
+        Accept: 'application/json',
+        'Access-Control-Allow-Credentials' : true,
+        //'Access-Control-Allow-Origin' : "*"
+      },
+    })
+  .then((resp) => resp.json())
+  .then(function(markers) {
+    console.log('markers', markers);
+    markers.forEach(marker => {
+      addMarker(marker)
+    });
+   });
   }
   
-  getUserLocation("https://6c8872eeef8b.ngrok.io/user-marker")
+function addMarker(marker) {
+  var marker = new google.maps.Marker({
+    position: marker.location,
+    map: map
+  });
+  // var userInfo = 
+  // '<div> marker.name </div>'+
+  // '<div> marker.phone </div>' +
+  // '<div> marker.email </div>';
+  var infowindow = new google.maps.InfoWindow({
+    content: '<div> marker.name </div>',
+  });
+  marker.addListener('click', function() {
+    infowindow.open(map, marker);
+})
+}  
+
+
+function initMap() {
+   
+  getUserLocation("https://182f9ef1b67d.ngrok.io/user-marker")
   //getUserLocation("http://localhost:3000/user")
 
-    function getMarkers(url, data = {}) {
-      fetch(url,
-        {
-          method: 'GET',
-          headers: {
-            Accept: 'application/json',
-          },
-        })
-      .then((resp) => resp.json())
-      .then(function(markers) {
-        console.log('markers', markers);
-        markers.forEach(marker => {
-          addMarker(marker)
-        });
-       });
-      }
-      
-    function addMarker(marker) {
-      var marker = new google.maps.Marker({
-        position: marker.location,
-        map: map
-      });
-      // var userInfo = 
-      // '<div> marker.name </div>'+
-      // '<div> marker.phone </div>' +
-      // '<div> marker.email </div>';
-      var infowindow = new google.maps.InfoWindow({
-        content: '<div> marker.name </div>',
-      });
-      marker.addListener('click', function() {
-        infowindow.open(map, marker);
-    })
-  }  
-
-  //getMarkers("https://abc848f31584.ngrok.io/markers");
+  //getMarkers("https://182f9ef1b67d.ngrok.io/markers");
   //getMarkers("http://localhost:3000/markers");
 
-    //submit request for geocoding by click
-    // const geocoder = new google.maps.Geocoder();
-    // document.getElementById("submit").addEventListener("click", () => {
-    //   geocodeAddress(geocoder);
-    // });
-    
-  }
-
-    
-  
+}
 
   // geocoding api
 //   function geocodeAddress(geocoder) {
@@ -129,7 +134,6 @@ async function postData(url = '', data = {}) {
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin' : "*", 
       'Access-Control-Allow-Credentials' : true 
     },
     redirect: 'follow', // manual, *follow, error
@@ -143,7 +147,6 @@ async function postData(url = '', data = {}) {
 //   .then(data => {
 //     console.log('status',data); // JSON data parsed by `data.json()` call
 //   })
-
 
 
 function filteredMarkers() {
@@ -167,7 +170,17 @@ function filteredMarkers() {
       }
     i++;
   }
+  //to clean all markers
+  getUserLocation("http://localhost:3000/user");
   console.log('filters', filters)
-  getMarkers("", filters)
+
+  //to get new markers
+  postData("https://a56b3e4fbadd.ngrok.io/send-filter", filters)
+  .then(function(markers) {
+    console.log('filtered markers', markers);
+    markers.forEach(marker => {
+      addMarker(marker)
+    });
+   });
 
 }
