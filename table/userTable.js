@@ -1,4 +1,6 @@
 var users = null;
+var url = "https://e410a45545c7.ngrok.io";
+
 function getUsers(url) {
   fetch(url,
     {
@@ -19,12 +21,12 @@ function getUsers(url) {
   //  });
 }
 
-getUsers("https://8572d773af04.ngrok.io/user-table")
+getUsers(url + "/user-table")
 
 
-async function deleteReq(url = '', data = {}) {
+async function deleteReq(url, data) {
   const response = await fetch(url, {
-    method: 'DELETE', // *GET, POST, PUT, DELETE, etc.
+    method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
     cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
@@ -37,17 +39,20 @@ async function deleteReq(url = '', data = {}) {
     referrerPolicy: 'no-referrer',
     body: JSON.stringify(data)
   });
+
+  var table = document.getElementById("eden");
+  table.removeChild(table.childNodes);
   return response.json();
 }
 
 
 function deleteUser(id) {
   var message = { "id": id }
-  deleteReq(url, message);
-
+  deleteReq(url + "/delete-user", message);
 }
 
 function creatTable(users) {
+  // get all table keys
   var col = [];
   for (var i = 0; i < users.length; i++) {
     for (var key in users[i]) {
@@ -56,21 +61,13 @@ function creatTable(users) {
       }
     }
   }
+
+  // get table elment
   var table = document.getElementById("eden");
-
-
-  // var tr = table.insertRow(-1);                   // TABLE ROW.
-
-  // for (var i = 0; i < col.length; i++) {
-  //     var th = document.createElement("th");      // TABLE HEADER.
-  //     th.innerHTML = col[i];
-  //     tr.appendChild(th);
-  // }
-
   for (var i = 0; i < users.length; i++) {
 
     tr = table.insertRow(-1);
-
+    //fill data row b row
     for (var j = 0; j < col.length; j++) {
       var tabCell = tr.insertCell(-1);
       if (col[j] === "id") {
@@ -85,12 +82,11 @@ function creatTable(users) {
       tabCell.innerHTML = users[i][col[j]];
     }
   }
-
-  // var divContainer = document.getElementById("showData");
-  // divContainer.innerHTML = "";
-  // divContainer.appendChild(table);
 }
 
 function onDelete() {
-  deleteUser(event.srcElement.id);
+  deleteUser(event.srcElement.id).then(() => {
+    var element = document.getElementById(event.srcElement.id);
+    element.parentElement.removeChild(element);
+  });
 }
