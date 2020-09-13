@@ -87,6 +87,6 @@ function creatTable(users) {
 function onDelete() {
   deleteUser(event.srcElement.id).then(() => {
     var element = document.getElementById(event.srcElement.id);
-    element.parentElement.removeChild(element);
+    element.parentElement.parentElement(element.parentElement);
   });
 }
