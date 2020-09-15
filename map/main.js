@@ -1,8 +1,9 @@
 var mapDiv = document.getElementById("map");
+var url = "https://67c06411575e.ngrok.io";
 
 // function to get the user address and zoom it in the map
 function getUserLocation(url) {
-  fetch(url , {
+  fetch(url + "/user-marker" , {
     method: 'GET',
     mode: 'cors', 
     credentials: 'include', 
@@ -14,6 +15,7 @@ function getUserLocation(url) {
   })
   .then((resp) => resp.json()) 
   .then(function(user) {
+    console.log('user',user)
     map = new google.maps.Map(mapDiv, {
       zoom: 16.25,
       center: user.location,
@@ -35,7 +37,7 @@ function getUserLocation(url) {
 }
 
 function getMarkers(url, data = {}) {
-  fetch(url,
+  fetch(url + "/users-marker",
     {
       method: 'GET',
       mode: 'cors', 
@@ -71,10 +73,10 @@ function addMarker(marker) {
 
 function initMap() {
    
-  getUserLocation("https://9ffcd8d52005.ngrok.io/user-marker")
+  getUserLocation(url)
   //getUserLocation("http://localhost:3000/user")
 
-  //getMarkers("https://182f9ef1b67d.ngrok.io/markers");
+  getMarkers(url);
   //getMarkers("http://localhost:3000/markers");
 
 }
@@ -97,6 +99,7 @@ async function postData(url = '', data = {}) {
 }
 
 function filteredMarkers() {
+  console.log('cookie', document.cookie)
   var selectedOption = [];
     var filters = {
       "institute": null,
@@ -118,11 +121,11 @@ function filteredMarkers() {
     i++;
   }
   //to clean all markers
-  getUserLocation("http://localhost:3000/user");
+  getUserLocation(url);
   console.log('filters', filters)
 
   //to get new markers
-  postData("https://a56b3e4fbadd.ngrok.io/send-filter", filters)
+  postData(url + "/send-filter", filters)
   .then(function(markers) {
     console.log('filtered markers', markers);
     markers.forEach(marker => {
@@ -131,3 +134,5 @@ function filteredMarkers() {
    });
 
 }
+
+

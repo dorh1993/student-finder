@@ -1,11 +1,16 @@
+var url = "https://67c06411575e.ngrok.io";
+
 function getUserInfo(url) {
-    fetch(url,
-      {
-        method: 'GET',
-        headers: {
-          Accept: 'application/json',
-        },
-      })
+  fetch(url + "/get-user-info" , {
+    method: 'GET',
+    mode: 'cors', 
+    credentials: 'include', 
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Credentials' : true 
+    }
+  })
     .then((resp) => resp.json())
     .then(function(userInfo) {
       console.log('userInfo', userInfo);
@@ -14,8 +19,8 @@ function getUserInfo(url) {
     }
     
 
-
 function setDatafromJson(user) {
+  if(user == {}) return ;
     document.getElementById("name").value = user.name;
     document.getElementById("email").value = user.email;
     document.getElementById("phone").value = user.phone;
@@ -33,6 +38,7 @@ function setDatafromJson(user) {
     })  
 }
 
+getUserInfo(url);
 
 async function postData(url = '', data = {}) {
     const response = await fetch(url, {
@@ -44,8 +50,21 @@ async function postData(url = '', data = {}) {
         'Content-Type': 'application/json',
         'Access-Control-Allow-Credentials' : true 
       },
-      redirect: 'follow',
-      referrerPolicy: 'no-referrer',
+      body: JSON.stringify(data)
+    });
+    return response.json();
+  }
+
+  async function updateData(url = '', data = {}) {
+    const response = await fetch(url, {
+      method: 'UPDATE',
+      mode: 'cors', 
+      credentials: 'include',
+      headers: {
+        'Accept': 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Credentials' : true 
+      },
       body: JSON.stringify(data)
     });
     return response.json();
@@ -68,7 +87,7 @@ function getCoordsFromAddress(){
 }
 
 
-function buildMessage(coords) {
+function buildMessage(location) {
     
     // for input
     var street = document.getElementById("street").value;
@@ -107,7 +126,7 @@ function buildMessage(coords) {
         "streetNum": streetNum,
         "city": city,
         "country": country,
-        "coords" : coords,
+        "location" : location,
         "institute": institute,
         "major": major,
         "year": year,
@@ -144,12 +163,12 @@ Promise.all(locations)
     var message = buildMessage(coords);
     console.log('message', message)
     
-    postData("https://6c8872eeef8b.ngrok.io/add-user", message )
-    .then(data => {
+    postData(url + "/add-user", message )
+    .then(response => {
       if (response.status == 'success'){
         setTimeout(function(){
           window.location.href = "http://83.130.145.225:8080/map";
-        }, 7000) 
+        }, 2500) 
       }
     })
   })

@@ -1,13 +1,16 @@
 var users = null;
-var url = "https://e410a45545c7.ngrok.io";
+var url = "https://67c06411575e.ngrok.io";
 
 function getUsers(url) {
-  fetch(url,
-    {
-      method: 'GET',
-      headers: {
-        Accept: 'application/json',
-      },
+  fetch(url, {
+    method: 'GET',
+    mode: 'cors', 
+    credentials: 'include', 
+    headers: {
+      'Accept': 'application/json',
+      'Content-Type': 'application/json',
+      'Access-Control-Allow-Credentials' : true 
+    },
     })
     .then((resp) => resp.json().then(usersResp => {
       users = usersResp;
@@ -28,15 +31,11 @@ async function deleteReq(url, data) {
   const response = await fetch(url, {
     method: 'POST', // *GET, POST, PUT, DELETE, etc.
     mode: 'cors', // no-cors, *cors, same-origin
-    cache: 'no-cache', // *default, no-cache, reload, force-cache, only-if-cached
     headers: {
       'Accept': 'application/json',
       'Content-Type': 'application/json',
-      'Access-Control-Allow-Origin': "*",
       'Access-Control-Allow-Credentials': true
     },
-    redirect: 'follow',
-    referrerPolicy: 'no-referrer',
     body: JSON.stringify(data)
   });
 
