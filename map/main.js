@@ -1,5 +1,11 @@
 var mapDiv = document.getElementById("map");
-var url = "https://67c06411575e.ngrok.io";
+var url = "https://8e3111f42b8e.ngrok.io";
+
+var allUsers = document.getElementsByClassName("all-users-admin")[0];
+
+function changeUserDisplay(){ 
+  allUsers.style.display = "initial";
+}
 
 // function to get the user address and zoom it in the map
 function getUserLocation(url) {
@@ -23,13 +29,16 @@ function getUserLocation(url) {
     });
     var marker = new google.maps.Marker({
       position: user.location,
-      label: { color: '#00aaff', fontWeight: 'bold', fontSize: '14px', text: (user.name +" "+ user.phone +" ",+ user.email)},
+      label: { color: 'black', fontWeight: 'bold', fontSize: '14px', text: 'Me!'},
       map: map,
       icon: { 
           url: "http://maps.google.com/mapfiles/ms/icons/green-dot.png" 
         }
         
     });
+    if( user.email == "admin"){
+       changeUserDisplay();
+       }
     })
   .catch(function(error) {
     console.log('ERROR');
@@ -60,6 +69,7 @@ function getMarkers(url, data = {}) {
 function addMarker(marker) {
   var marker = new google.maps.Marker({
     position: marker.location,
+    label: { color: '#386188', fontWeight: 'bold', fontSize: '14px', text: (marker.name + ' ' + marker.phone + ' ' + marker.email)},
     map: map
   });
   var infowindow = new google.maps.InfoWindow({

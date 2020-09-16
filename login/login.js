@@ -1,4 +1,4 @@
-var url = "https://67c06411575e.ngrok.io";
+var url = "https://8e3111f42b8e.ngrok.io";
 
 function checkIfExist() {
     var input = document.getElementById('emailInput').value; 

@@ -138,6 +138,19 @@ option{
   -ms-grid-row-span: 1;
 }
 
+.all-users-admin{
+  display: none;
+  border-radius: 9px;
+  height: auto;
+  padding: 5px;
+  border: 1px solid white;
+  color: white;
+  background: transparent;
+  grid-row-start: 1;
+  -ms-grid-row: 1;
+  -ms-grid-row-span: 1;
+}
+
 .info-window{
   width: 150px;
   height: 150px;
