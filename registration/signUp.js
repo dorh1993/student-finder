@@ -1,4 +1,4 @@
-var url = "https://8e3111f42b8e.ngrok.io";
+var url = "http://51.103.51.122:8080/";
 
 function getUserInfo(url) {
   fetch(url + "/get-user-info" , {
@@ -33,7 +33,6 @@ function setDatafromJson(user) {
     document.getElementById("major").value = user.major;
     var inputElements = document.getElementsByClassName('courses');
     (user.courses).forEach((value) => {
-        console.log('value', value);
         inputElements[value-1].checked = true;
     })  
 }

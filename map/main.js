@@ -1,5 +1,5 @@
 var mapDiv = document.getElementById("map");
-var url = "https://8e3111f42b8e.ngrok.io";
+var url = "http://51.103.51.122:8080/";
 
 var allUsers = document.getElementsByClassName("all-users-admin")[0];
 
