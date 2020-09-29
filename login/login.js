@@ -9,13 +9,13 @@ function checkIfExist() {
       console.log('response', response)
         if (response.status == 'success'){
           setTimeout(function(){
-            window.location.href = "http://83.130.145.225:8080/map";
-          }, 2500) 
+            window.location.href = "http://83.130.154.168:8080/map";
+          }, 2000) 
         }
         else {
           setTimeout(function(){
-            window.location.href = "http://83.130.145.225:8080/registration/signUp.html"
-          }, 2500) 
+            window.location.href = "http://83.130.154.168:8080/registration/signUp.html"
+          }, 2000) 
         }
   })
 }

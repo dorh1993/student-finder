@@ -166,8 +166,8 @@ Promise.all(locations)
     .then(response => {
       if (response.status == 'success'){
         setTimeout(function(){
-          window.location.href = "http://83.130.145.225:8080/map";
-        }, 2500) 
+          window.location.href = "http://83.130.154.168:8080/map";
+        }, 2000) 
       }
     })
   })
